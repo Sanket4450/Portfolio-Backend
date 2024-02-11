@@ -1,0 +1,24 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "backend of my personal portfolio website",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sanket4450/Portfolio-Backend.git"
+  },
+  "author": "Sanket Talaviya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sanket4450/Portfolio-Backend/issues"
+  },
+  "homepage": "https://github.com/Sanket4450/Portfolio-Backend#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  }
+}
