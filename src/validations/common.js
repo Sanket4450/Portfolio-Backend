@@ -13,6 +13,14 @@ export const booleanReqValidation = booleanValidation.required()
 export const dateValidation = Joi.date()
 export const dateReqValidation = Joi.date().required()
 export const arrayValidation = Joi.array()
+export const mobileValidation = numberValidation
+    .min(10 ** 9)
+    .max(10 ** 10 - 1)
+    .messages({
+        'number.min': 'Mobile number should be 10 digit',
+        'number.max': 'Mobile number should be 10 digit',
+    })
+export const mobileReqValidation = mobileValidation.required()
 
 export const pageAndLimit = {
     page: integerNumberValidation.min(1),

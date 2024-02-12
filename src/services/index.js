@@ -1,3 +1,3 @@
-import reviewService from './review.js'
+import messageService from './message.js'
 
-export { reviewService }
+export { messageService }

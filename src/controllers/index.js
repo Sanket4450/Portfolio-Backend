@@ -1,3 +1,3 @@
-import reviewController from './review.js'
+import messageController from './message.js'
 
-export { reviewController }
+export { messageController }

@@ -1,8 +1,8 @@
 import express from 'express'
-import reviewRoutes from './review.js'
+import messageRoutes from './message.js'
 
 const router = express.Router()
 
-router.use('/reviews', reviewRoutes)
+router.use('/messages', messageRoutes)
 
 export default router

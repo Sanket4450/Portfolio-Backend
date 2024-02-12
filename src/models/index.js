@@ -1,5 +1,5 @@
-import Review from './review.js'
+import Message from './message.js'
 
 export default {
-    Review,
+    Message,
 }

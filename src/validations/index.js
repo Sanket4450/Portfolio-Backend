@@ -1,3 +1,3 @@
-import reviewValidation from './review.js'
+import messageValidation from './message.js'
 
-export { reviewValidation }
+export { messageValidation }

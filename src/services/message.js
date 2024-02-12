@@ -3,30 +3,30 @@ import Dbrepo from '../dbRepo.js'
 import ApiError from '../utils/ApiError.js'
 import constants from '../constants.js'
 
-const getReviewsByEmail = async (email) => {
+const getMessagesByEmail = async (email) => {
     const query = {
         email,
     }
 
-    return Dbrepo.find(constants.COLLECTIONS.REVIEW, { query })
+    return Dbrepo.find(constants.COLLECTIONS.MESSAGE, { query })
 }
 
-const addReview = async (reviewBody) => {
+const sendMessage = async (messageBody) => {
     try {
-        const reviews = await getReviewsByEmail(reviewBody.email)
+        const reviews = await getMessagesByEmail(messageBody.email)
 
         if (reviews.length >= 10) {
             throw new ApiError(
-                constants.MESSAGES.ERROR.MAX_REVIEW_LIMIT,
+                constants.MESSAGES.ERROR.MAX_MESSAGE_LIMIT,
                 httpStatus.BAD_REQUEST
             )
         }
 
         const data = {
-            ...reviewBody,
+            ...messageBody,
         }
 
-        Dbrepo.create(constants.COLLECTIONS.REVIEW, { data })
+        Dbrepo.create(constants.COLLECTIONS.MESSAGE, { data })
     } catch (error) {
         throw new ApiError(
             error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
@@ -36,5 +36,5 @@ const addReview = async (reviewBody) => {
 }
 
 export default {
-    addReview,
+    sendMessage,
 }

@@ -1,14 +1,14 @@
 export default {
     MESSAGES: {
         SUCCESS: {
-            REVIEW_POSTED: 'Review posted successfully',
+            MESSAGE_SENT: 'Message sent successfully',
         },
         ERROR: {
             SOMETHING_WENT_WRONG: 'Something went wrong, please try again',
-            MAX_REVIEW_LIMIT: 'You have reached the maximum review limit',
+            MAX_MESSAGE_LIMIT: 'You have reached the maximum message limit',
         },
     },
     COLLECTIONS: {
-        REVIEW: 'Review',
+        MESSAGE: 'Message',
     },
 }

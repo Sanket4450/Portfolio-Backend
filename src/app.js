@@ -3,6 +3,7 @@ dotenv.config()
 
 import express from 'express'
 import cors from 'cors'
+import httpStatus from 'http-status'
 import connectDB from './config/db.js'
 import userRoutes from './routes/index.js'
 import ApiError from './utils/ApiError.js'
