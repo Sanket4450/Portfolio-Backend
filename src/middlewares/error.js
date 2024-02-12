@@ -20,7 +20,7 @@ export const errorHandler = (err, _, res, __) => {
         success: false,
         code: statusCode,
         message,
-        ...(process.env.ENVIRONMENT === 'development' && { stack: err.stack }),
+        ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
     }
 
     res.status(statusCode).json(response)
