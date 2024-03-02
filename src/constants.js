@@ -11,5 +11,6 @@ export default {
     },
     COLLECTIONS: {
         MESSAGE: 'Message',
+        SESSION: 'Session'
     },
 }
