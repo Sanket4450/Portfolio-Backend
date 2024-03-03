@@ -22,6 +22,12 @@ export const mobileValidation = numberValidation
     })
 export const mobileReqValidation = mobileValidation.required()
 
+export const secretValidation = stringReqValidation
+    .pattern(new RegExp('^[A-Za-z0-9@$%&_]+$'))
+    .messages({
+        'string.pattern.base': 'Invalid admin secret ajsdfdasjf',
+    })
+
 export const pageAndLimit = {
     page: integerNumberValidation.min(1),
     limit: integerNumberValidation.min(1),

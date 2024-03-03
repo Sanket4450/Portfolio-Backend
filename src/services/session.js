@@ -3,30 +3,22 @@ import Dbrepo from '../dbRepo.js'
 import ApiError from '../utils/ApiError.js'
 import constants from '../constants.js'
 
-const getMessagesByEmail = async (email) => {
-    const query = {
-        email,
+const validateSecret = (secret) => {
+    if (secret !== process.env.ADMIN_SECRET) {
+        throw new ApiError(
+            constants.MESSAGES.ERROR.INVALID_SECRET,
+            httpStatus.FORBIDDEN
+        )
     }
-
-    return Dbrepo.find(constants.COLLECTIONS.MESSAGE, { query })
 }
 
-const sendMessage = async (messageBody) => {
+const createSession = async (token) => {
     try {
-        const reviews = await getMessagesByEmail(messageBody.email)
-
-        if (reviews.length >= 10) {
-            throw new ApiError(
-                constants.MESSAGES.ERROR.MAX_MESSAGE_LIMIT,
-                httpStatus.BAD_REQUEST
-            )
-        }
-
         const data = {
-            ...messageBody,
+            token,
         }
 
-        Dbrepo.create(constants.COLLECTIONS.MESSAGE, { data })
+        Dbrepo.create(constants.COLLECTIONS.SESSION, { data })
     } catch (error) {
         throw new ApiError(
             error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
@@ -36,5 +28,6 @@ const sendMessage = async (messageBody) => {
 }
 
 export default {
-    sendMessage,
+    validateSecret,
+    createSession,
 }

@@ -1,22 +1,13 @@
 import Joi from 'joi'
 
-import {
-    stringReqValidation,
-    emailValidation,
-    mobileValidation,
-} from './common.js'
+import { secretValidation } from './common.js'
 
-const postMessage = {
+const loginSession = {
     body: Joi.object().keys({
-        firstName: stringReqValidation,
-        lastName: stringReqValidation,
-        email: emailValidation,
-        mobile: mobileValidation,
-        subject: stringReqValidation.max(100),
-        description: stringReqValidation.max(500),
+        secret: secretValidation,
     }),
 }
 
 export default {
-    postMessage,
+    loginSession,
 }

@@ -2,19 +2,23 @@ import httpStatus from 'http-status'
 import constants from '../constants.js'
 import catchAsyncErrors from '../utils/catchAsyncErrors.js'
 import sendResponse from '../utils/responseHandler.js'
-import { messageService } from '../services/index.js'
+import { sessionService, tokenService } from '../services/index.js'
 
-const postMessage = catchAsyncErrors(async (req, res) => {
-    await messageService.sendMessage(req.body)
+const loginSession = catchAsyncErrors(async (req, res) => {
+    const { secret } = req.body
+
+    sessionService.validateSecret(secret)
+
+    const accessToken = await tokenService.generateAccessToken()
 
     return sendResponse(
         res,
         httpStatus.OK,
-        {},
-        constants.MESSAGES.SUCCESS.MESSAGE_SENT
+        { accessToken },
+        constants.MESSAGES.SUCCESS.SESSION_LOGIN
     )
 })
 
 export default {
-    postMessage,
+    loginSession,
 }

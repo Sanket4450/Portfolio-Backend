@@ -7,8 +7,8 @@ const router = express.Router()
 
 router.post(
     '/login',
-    validate(sessionValidation.postMessage),
-    sessionController.postMessage
+    validate(sessionValidation.loginSession),
+    sessionController.loginSession
 )
 
 export default router
