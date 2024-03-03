@@ -7,6 +7,7 @@ import {
     pageAndLimit,
     stringValidation,
     idReqValidation,
+    booleanReqValidation,
 } from './common.js'
 
 const postMessage = {
@@ -39,7 +40,16 @@ const getMessages = {
 
 const getFullMessage = {
     params: Joi.object().keys({
-        messageId: idReqValidation, 
+        messageId: idReqValidation,
+    }),
+}
+
+const toggleRead = {
+    params: Joi.object().keys({
+        messageId: idReqValidation,
+    }),
+    query: Joi.object().keys({
+        isRead: booleanReqValidation,
     }),
 }
 
@@ -47,4 +57,5 @@ export default {
     postMessage,
     getMessages,
     getFullMessage,
+    toggleRead,
 }

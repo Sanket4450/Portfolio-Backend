@@ -128,8 +128,30 @@ const getFullMessage = async (id) => {
     }
 }
 
+const toggleRead = async (messageId, isRead) => {
+    try {
+        const query = {
+            _id: new mongoose.Types.ObjectId(messageId),
+        }
+
+        const data = {
+            $set: {
+                isRead
+            }
+        }
+
+        await Dbrepo.updateOne(constants.COLLECTIONS.MESSAGE, { query, data })
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 export default {
     sendMessage,
     getMessages,
     getFullMessage,
+    toggleRead,
 }

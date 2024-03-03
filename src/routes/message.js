@@ -27,4 +27,11 @@ messageAdminRouter.get(
     messageController.getFullMessage
 )
 
+messageAdminRouter.patch(
+    '/:messageId',
+    authorizeAdmin,
+    validate(messageValidation.toggleRead),
+    messageController.toggleRead
+)
+
 export { messageUserRouter, messageAdminRouter }

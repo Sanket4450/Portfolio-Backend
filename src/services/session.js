@@ -34,7 +34,9 @@ const addTimestamp = async (token) => {
         }
 
         const data = {
-            lastActiveAt: Date.now(),
+            $set: {
+                lastActiveAt: Date.now(),
+            },
         }
 
         await Dbrepo.updateOne(constants.COLLECTIONS.SESSION, { query, data })

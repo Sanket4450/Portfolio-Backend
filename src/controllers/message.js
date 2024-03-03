@@ -68,8 +68,23 @@ const getFullMessage = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const toggleRead = catchAsyncErrors(async (req, res) => {
+    const { messageId } = req.params
+    const { isRead } = req.query
+
+    await messageService.toggleRead(messageId, isRead)
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        { isRead },
+        `Message ${isRead ? 'marked as read' : 'marked as unread'}`
+    )
+})
+
 export default {
     postMessage,
     getMessages,
     getFullMessage,
+    toggleRead,
 }
