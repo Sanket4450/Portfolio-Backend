@@ -5,7 +5,7 @@ import express from 'express'
 import cors from 'cors'
 import httpStatus from 'http-status'
 import connectDB from './config/db.js'
-import userRoutes from './routes/index.js'
+import { userRouter, adminRouter } from './routes/index.js'
 import ApiError from './utils/ApiError.js'
 import { errorConverter, errorHandler } from './middlewares/error.js'
 
@@ -43,7 +43,8 @@ app.get('/', (req, res) => {
     res.send('App is running...')
 })
 
-app.use('/api/v1', userRoutes)
+app.use('/api', userRouter)
+app.use('/api/admin', adminRouter)
 
 app.use((req, res, next) => {
     next(new ApiError('Route not Found', httpStatus.NOT_FOUND))

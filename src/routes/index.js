@@ -1,10 +1,14 @@
 import express from 'express'
 import messageRoutes from './message.js'
+import sessionRoutes from './session.js'
 import testRoutes from './test.js'
 
-const router = express.Router()
+const userRouter = express.Router()
+const adminRouter = express.Router()
 
-router.use('/messages', messageRoutes)
-router.use('/test', testRoutes)
+userRouter.use('/messages', messageRoutes)
+userRouter.use('/test', testRoutes)
 
-export default router
+adminRouter.use('/session', sessionRoutes)
+
+export { userRouter, adminRouter }
