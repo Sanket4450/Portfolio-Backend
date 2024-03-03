@@ -12,6 +12,18 @@ const getMessagesByEmail = async (email) => {
     return Dbrepo.find(constants.COLLECTIONS.MESSAGE, { query })
 }
 
+const getMessageById = async (id) => {
+    const query = {
+        _id: new mongoose.Types.ObjectId(id),
+    }
+
+    const data = {
+        _id: 1,
+    }
+
+    return Dbrepo.findOne(constants.COLLECTIONS.MESSAGE, { query, data })
+}
+
 const sendMessage = async (messageBody) => {
     try {
         const reviews = await getMessagesByEmail(messageBody.email)
@@ -132,6 +144,7 @@ const toggleRead = async (messageId, isRead) => {
     try {
         const query = {
             _id: new mongoose.Types.ObjectId(messageId),
+            isRead: !isRead,
         }
 
         const data = {
@@ -151,7 +164,9 @@ const toggleRead = async (messageId, isRead) => {
 
 const markAllMessagesAsRead = async () => {
     try {
-        const query = {}
+        const query = {
+            isRead: false,
+        }
 
         const data = {
             $set: {
@@ -168,10 +183,27 @@ const markAllMessagesAsRead = async () => {
     }
 }
 
+const deleteMessage = async (id) => {
+    try {
+        const query = {
+            _id: new mongoose.Types.ObjectId(id),
+        }
+
+        await Dbrepo.deleteOne(constants.COLLECTIONS.MESSAGE, { query })
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 export default {
     sendMessage,
+    getMessageById,
     getMessages,
     getFullMessage,
     toggleRead,
     markAllMessagesAsRead,
+    deleteMessage,
 }

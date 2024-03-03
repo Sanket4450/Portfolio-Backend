@@ -39,14 +39,14 @@ const getMessages = catchAsyncErrors(async (req, res) => {
 const getFullMessage = catchAsyncErrors(async (req, res) => {
     const { messageId } = req.params
 
-    const messageObject = await messageService.getFullMessage(messageId)
-
-    if (!messageObject) {
+    if (!(await messageService.getMessageById(messageId))) {
         throw new ApiError(
             constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
             httpStatus.NOT_FOUND
         )
     }
+
+    const messageObject = await messageService.getFullMessage(messageId)
 
     const message = {
         messageId: messageObject._id,
@@ -83,6 +83,13 @@ const toggleRead = catchAsyncErrors(async (req, res) => {
     const { messageId } = req.params
     const { isRead } = req.query
 
+    if (!(await messageService.getMessageById(messageId))) {
+        throw new ApiError(
+            constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
+            httpStatus.NOT_FOUND
+        )
+    }
+
     await messageService.toggleRead(messageId, isRead)
 
     return sendResponse(
@@ -93,10 +100,31 @@ const toggleRead = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const deleteMessage = catchAsyncErrors(async (req, res) => {
+    const { messageId } = req.params
+
+    if (!await messageService.getMessageById(messageId)) {
+        throw new ApiError(
+            constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
+            httpStatus.NOT_FOUND
+        )
+    }
+
+    await messageService.deleteMessage(messageId)
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        {},
+        constants.MESSAGES.SUCCESS.MESSAGE_DELETED
+    )
+})
+
 export default {
     postMessage,
     getMessages,
     getFullMessage,
     markAllAsRead,
     toggleRead,
+    deleteMessage,
 }

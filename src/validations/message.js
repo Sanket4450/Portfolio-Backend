@@ -53,9 +53,16 @@ const toggleRead = {
     }),
 }
 
+const deleteMessage = {
+    params: Joi.object().keys({
+        messageId: idReqValidation,
+    }),
+}
+
 export default {
     postMessage,
     getMessages,
     getFullMessage,
     toggleRead,
+    deleteMessage,
 }

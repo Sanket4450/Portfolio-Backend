@@ -40,4 +40,11 @@ messageAdminRouter.patch(
     messageController.toggleRead
 )
 
+messageAdminRouter.delete(
+    '/:messageId',
+    authorizeAdmin,
+    validate(messageValidation.deleteMessage),
+    messageController.deleteMessage
+)
+
 export { messageUserRouter, messageAdminRouter }
