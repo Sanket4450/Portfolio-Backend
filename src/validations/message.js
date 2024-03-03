@@ -4,6 +4,8 @@ import {
     stringReqValidation,
     emailValidation,
     mobileValidation,
+    pageAndLimit,
+    stringValidation,
 } from './common.js'
 
 const postMessage = {
@@ -17,6 +19,24 @@ const postMessage = {
     }),
 }
 
+const getMessages = {
+    query: Joi.object().keys({
+        sortBy: stringValidation
+            .lowercase()
+            .valid(
+                'newest',
+                'oldest',
+                'name_asc',
+                'name_desc',
+                'email_asc',
+                'email_desc',
+                'unread'
+            ),
+        ...pageAndLimit,
+    }),
+}
+
 export default {
     postMessage,
+    getMessages,
 }

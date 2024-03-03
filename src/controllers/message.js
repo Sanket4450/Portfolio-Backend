@@ -15,6 +15,27 @@ const postMessage = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const getMessages = catchAsyncErrors(async (req, res) => {
+    const messageObjects = await messageService.getMessages(req.query)
+
+    const messages = messageObjects.map((message) => ({
+        id: message._id,
+        firstName: message.firstName,
+        lastName: message.lastName,
+        email: message.email,
+        isRead: message.isRead,
+        createdAt: message.createdAt,
+    }))
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        { messages },
+        constants.MESSAGES.SUCCESS.MESSAGE_SENT
+    )
+})
+
 export default {
     postMessage,
+    getMessages,
 }

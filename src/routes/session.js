@@ -6,7 +6,7 @@ import { sessionController } from '../controllers/index.js'
 const router = express.Router()
 
 router.post(
-    '/login',
+    '/',
     validate(sessionValidation.loginSession),
     sessionController.loginSession
 )

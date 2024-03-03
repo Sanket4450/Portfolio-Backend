@@ -31,6 +31,10 @@ const messageSchema = new Schema(
             maxLength: 500,
             required: true,
         },
+        isRead: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

@@ -11,7 +11,7 @@ const generateToken = ({ payload, secret, options }) => {
 const verifyToken = (token, secret) => {
     if (!token) {
         throw new ApiError(
-            constant.MESSAGES.TOKEN_IS_REQUIRED,
+            constant.MESSAGES.ERROR.TOKEN_IS_REQUIRED,
             httpStatus.FORBIDDEN
         )
     }

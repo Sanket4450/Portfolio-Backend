@@ -35,6 +35,73 @@ const sendMessage = async (messageBody) => {
     }
 }
 
+const getMessages = async ({ page, limit, sortBy }) => {
+    try {
+        page ||= 1
+        limit ||= 20
+        sortBy ||= 'newest'
+
+        let sortQuery = {}
+
+        const query = {}
+
+        const data = {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            isRead: 1,
+            createdAt: 1,
+        }
+
+        switch (sortBy) {
+            case 'newest':
+                sortQuery = { createdAt: -1 }
+                break
+
+            case 'oldest':
+                sortQuery = { createdAt: 1 }
+                break
+
+            case 'name_asc':
+                sortQuery = { firstName: 1, createdAt: -1 }
+                break
+
+            case 'name_desc':
+                sortQuery = { firstName: -1, createdAt: -1 }
+                break
+
+            case 'email_asc':
+                sortQuery = { email: 1, createdAt: -1 }
+                break
+
+            case 'email_desc':
+                sortQuery = { email: -1, createdAt: -1 }
+                break
+
+            case 'unread':
+                sortQuery = { isRead: -1, createdAt: -1 }
+                break
+
+            default:
+                sortQuery = { createdAt: -1 }
+        }
+
+        return Dbrepo.findPage(
+            constants.COLLECTIONS.MESSAGE,
+            { query, data },
+            sortQuery,
+            page,
+            limit
+        )
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 export default {
     sendMessage,
+    getMessages,
 }

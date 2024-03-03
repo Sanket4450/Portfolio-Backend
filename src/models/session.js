@@ -6,7 +6,11 @@ const sessionSchema = new Schema(
             type: String,
             trim: true,
             required: true,
-            index: true
+            index: true,
+        },
+        lastActiveAt: {
+            type: Date,
+            default: Date.now(),
         },
     },
     {
