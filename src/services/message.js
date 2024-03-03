@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import mongoose from 'mongoose'
 import Dbrepo from '../dbRepo.js'
 import ApiError from '../utils/ApiError.js'
 import constants from '../constants.js'
@@ -101,7 +102,34 @@ const getMessages = async ({ page, limit, sortBy }) => {
     }
 }
 
+const getFullMessage = async (id) => {
+    try {
+        const query = {
+            _id: new mongoose.Types.ObjectId(id),
+        }
+
+        const data = {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            mobile: 1,
+            subject: 1,
+            description: 1,
+            isRead: 1,
+            createdAt: 1,
+        }
+
+        return Dbrepo.findOne(constants.COLLECTIONS.MESSAGE, { query, data })
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 export default {
     sendMessage,
     getMessages,
+    getFullMessage,
 }

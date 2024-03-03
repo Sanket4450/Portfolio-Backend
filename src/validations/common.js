@@ -28,6 +28,14 @@ export const secretValidation = stringReqValidation
         'string.pattern.base': 'Invalid admin secret ajsdfdasjf',
     })
 
+export const idValidation = stringValidation
+    .pattern(new RegExp('^[0-9a-fA-F]{24}$'))
+    .messages({
+        'string.pattern.base': 'Invalid ID. Please provide a valid ObjectId',
+    })
+
+export const idReqValidation = idValidation.required()
+
 export const pageAndLimit = {
     page: integerNumberValidation.min(1),
     limit: integerNumberValidation.min(1),

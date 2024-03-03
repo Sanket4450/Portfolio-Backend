@@ -6,6 +6,7 @@ import {
     mobileValidation,
     pageAndLimit,
     stringValidation,
+    idReqValidation,
 } from './common.js'
 
 const postMessage = {
@@ -36,7 +37,14 @@ const getMessages = {
     }),
 }
 
+const getFullMessage = {
+    params: Joi.object().keys({
+        messageId: idReqValidation, 
+    }),
+}
+
 export default {
     postMessage,
     getMessages,
+    getFullMessage,
 }

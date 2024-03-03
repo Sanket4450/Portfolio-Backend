@@ -20,4 +20,11 @@ messageAdminRouter.get(
     messageController.getMessages
 )
 
+messageAdminRouter.get(
+    '/:messageId',
+    authorizeAdmin,
+    validate(messageValidation.getFullMessage),
+    messageController.getFullMessage
+)
+
 export { messageUserRouter, messageAdminRouter }

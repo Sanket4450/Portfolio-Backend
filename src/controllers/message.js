@@ -1,6 +1,7 @@
 import httpStatus from 'http-status'
 import constants from '../constants.js'
 import catchAsyncErrors from '../utils/catchAsyncErrors.js'
+import ApiError from '../utils/ApiError.js'
 import sendResponse from '../utils/responseHandler.js'
 import { messageService } from '../services/index.js'
 
@@ -19,23 +20,56 @@ const getMessages = catchAsyncErrors(async (req, res) => {
     const messageObjects = await messageService.getMessages(req.query)
 
     const messages = messageObjects.map((message) => ({
-        id: message._id,
+        messageId: message._id,
         firstName: message.firstName,
         lastName: message.lastName,
         email: message.email,
         isRead: message.isRead,
-        createdAt: message.createdAt,
+        receivedAt: message.createdAt,
     }))
 
     return sendResponse(
         res,
         httpStatus.OK,
         { messages },
-        constants.MESSAGES.SUCCESS.MESSAGE_SENT
+        constants.MESSAGES.SUCCESS.MESSAGES_FETCHED
+    )
+})
+
+const getFullMessage = catchAsyncErrors(async (req, res) => {
+    const { messageId } = req.params
+
+    const messageObject = await messageService.getFullMessage(messageId)
+
+    if (!messageObject) {
+        throw new ApiError(
+            constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
+            httpStatus.NOT_FOUND
+        )
+    }
+
+    const message = {
+        messageId: messageObject._id,
+        firstName: messageObject.firstName,
+        lastName: messageObject.lastName,
+        email: messageObject.email,
+        mobile: messageObject.mobile,
+        subject: messageObject.subject,
+        description: messageObject.description,
+        isRead: messageObject.isRead,
+        receivedAt: messageObject.createdAt,
+    }
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        { message },
+        constants.MESSAGES.SUCCESS.MESSAGE_FETCHED
     )
 })
 
 export default {
     postMessage,
     getMessages,
+    getFullMessage,
 }
