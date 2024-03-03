@@ -136,11 +136,30 @@ const toggleRead = async (messageId, isRead) => {
 
         const data = {
             $set: {
-                isRead
-            }
+                isRead,
+            },
         }
 
         await Dbrepo.updateOne(constants.COLLECTIONS.MESSAGE, { query, data })
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
+const markAllMessagesAsRead = async () => {
+    try {
+        const query = {}
+
+        const data = {
+            $set: {
+                isRead: true,
+            },
+        }
+
+        await Dbrepo.updateMany(constants.COLLECTIONS.MESSAGE, { query, data })
     } catch (error) {
         throw new ApiError(
             error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
@@ -154,4 +173,5 @@ export default {
     getMessages,
     getFullMessage,
     toggleRead,
+    markAllMessagesAsRead,
 }

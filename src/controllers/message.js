@@ -68,6 +68,17 @@ const getFullMessage = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const markAllAsRead = catchAsyncErrors(async (_, res) => {
+    await messageService.markAllMessagesAsRead()
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        {},
+        constants.MESSAGES.SUCCESS.MARKED_ALL_AS_READ
+    )
+})
+
 const toggleRead = catchAsyncErrors(async (req, res) => {
     const { messageId } = req.params
     const { isRead } = req.query
@@ -86,5 +97,6 @@ export default {
     postMessage,
     getMessages,
     getFullMessage,
+    markAllAsRead,
     toggleRead,
 }

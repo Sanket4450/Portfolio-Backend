@@ -5,6 +5,7 @@ export default {
             SESSION_LOGIN: 'Admin session has logged-in successfully',
             MESSAGES_FETCHED: 'Messages fetched successfully',
             MESSAGE_FETCHED: 'Message fetched successfully',
+            MARKED_ALL_AS_READ: 'All messages marked as read',
             TEST_SUCCESS: 'Test successfull',
         },
         ERROR: {

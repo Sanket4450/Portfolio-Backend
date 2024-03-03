@@ -28,6 +28,12 @@ messageAdminRouter.get(
 )
 
 messageAdminRouter.patch(
+    '/mark-all-as-read',
+    authorizeAdmin,
+    messageController.markAllAsRead
+)
+
+messageAdminRouter.patch(
     '/:messageId',
     authorizeAdmin,
     validate(messageValidation.toggleRead),
