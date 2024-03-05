@@ -13,7 +13,7 @@ const app = express()
 
 connectDB()
 
-app.use((req, res, next) => {
+app.use((_, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header(
         'Access-Control-Allow-Headers',
@@ -39,14 +39,14 @@ app.use(
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
     res.send('App is running...')
 })
 
 app.use('/api', userRouter)
 app.use('/api/admin', adminRouter)
 
-app.use((req, res, next) => {
+app.use((_, __, next) => {
     next(new ApiError('Route not Found', httpStatus.NOT_FOUND))
 })
 

@@ -17,6 +17,7 @@ export default {
             INVALID_TOKEN: 'Invalid token or signature',
             TOKEN_EXPIRED: 'Token has expired',
             MESSAGE_NOT_FOUND: 'Message not found for this messageId',
+            EMAIL_NOT_VALID: 'Email is not valid',
         },
     },
     COLLECTIONS: {
