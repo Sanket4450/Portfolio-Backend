@@ -44,6 +44,16 @@ const getFullMessage = {
     }),
 }
 
+const replyMessage = {
+    params: Joi.object().keys({
+        messageId: idReqValidation,
+    }),
+    body: Joi.object().keys({
+        subject: stringReqValidation.max(100),
+        description: stringReqValidation.max(500),
+    }),
+}
+
 const toggleRead = {
     params: Joi.object().keys({
         messageId: idReqValidation,
@@ -63,6 +73,7 @@ export default {
     postMessage,
     getMessages,
     getFullMessage,
+    replyMessage,
     toggleRead,
     deleteMessage,
 }

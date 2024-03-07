@@ -68,6 +68,26 @@ const getFullMessage = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const replyMessage = catchAsyncErrors(async (req, res) => {
+    const { messageId } = req.params
+
+    if (!(await messageService.getMessageById(messageId))) {
+        throw new ApiError(
+            constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
+            httpStatus.NOT_FOUND
+        )
+    }
+
+    await messageService.replyMessage(messageId, req.body)
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        {},
+        constants.MESSAGES.SUCCESS.REPLY_MESSAGE_SENT
+    )
+})
+
 const markAllAsRead = catchAsyncErrors(async (_, res) => {
     await messageService.markAllMessagesAsRead()
 
@@ -103,7 +123,7 @@ const toggleRead = catchAsyncErrors(async (req, res) => {
 const deleteMessage = catchAsyncErrors(async (req, res) => {
     const { messageId } = req.params
 
-    if (!await messageService.getMessageById(messageId)) {
+    if (!(await messageService.getMessageById(messageId))) {
         throw new ApiError(
             constants.MESSAGES.ERROR.MESSAGE_NOT_FOUND,
             httpStatus.NOT_FOUND
@@ -124,6 +144,7 @@ export default {
     postMessage,
     getMessages,
     getFullMessage,
+    replyMessage,
     markAllAsRead,
     toggleRead,
     deleteMessage,

@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import Dbrepo from '../dbRepo.js'
 import ApiError from '../utils/ApiError.js'
 import constants from '../constants.js'
+import emailService from './email.js'
 
 const getMessagesByEmail = async (email) => {
     const query = {
@@ -140,6 +141,26 @@ const getFullMessage = async (id) => {
     }
 }
 
+const replyMessage = async (id, { subject, description }) => {
+    try {
+        const { firstName, lastName, email } = await getFullMessage(id)
+
+        const data = {
+            firstName,
+            lastName,
+            subject,
+            description,
+        }
+
+        await emailService.sendReplyMessage(email, data)
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 const toggleRead = async (messageId, isRead) => {
     try {
         const query = {
@@ -203,6 +224,7 @@ export default {
     getMessageById,
     getMessages,
     getFullMessage,
+    replyMessage,
     toggleRead,
     markAllMessagesAsRead,
     deleteMessage,

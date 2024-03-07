@@ -7,6 +7,8 @@ export default {
             MESSAGE_FETCHED: 'Message fetched successfully',
             MARKED_ALL_AS_READ: 'All messages marked as read',
             MESSAGE_DELETED: 'Message deleted successfully',
+            REPLY_MESSAGE: 'Reply Message',
+            REPLY_MESSAGE_SENT: 'Reply message sent successfully',
             TEST_SUCCESS: 'Test successfull',
         },
         ERROR: {

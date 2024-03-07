@@ -27,6 +27,13 @@ messageAdminRouter.get(
     messageController.getFullMessage
 )
 
+messageAdminRouter.post(
+    '/:messageId/reply',
+    authorizeAdmin,
+    validate(messageValidation.replyMessage),
+    messageController.replyMessage
+)
+
 messageAdminRouter.patch(
     '/mark-all-as-read',
     authorizeAdmin,

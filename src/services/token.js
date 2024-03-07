@@ -11,7 +11,7 @@ const generateToken = ({ payload, secret, options }) => {
 const verifyToken = (token, secret) => {
     if (!token) {
         throw new ApiError(
-            constant.MESSAGES.ERROR.TOKEN_IS_REQUIRED,
+            constants.MESSAGES.ERROR.TOKEN_IS_REQUIRED,
             httpStatus.FORBIDDEN
         )
     }
@@ -21,7 +21,7 @@ const verifyToken = (token, secret) => {
                 if (err.name === 'JsonWebTokenError') {
                     reject(
                         new ApiError(
-                            constant.MESSAGES.ERROR.INVALID_TOKEN,
+                            constants.MESSAGES.ERROR.INVALID_TOKEN,
                             httpStatus.UNAUTHORIZED
                         )
                     )
@@ -29,7 +29,7 @@ const verifyToken = (token, secret) => {
                 if (err.name === 'TokenExpiredError') {
                     reject(
                         new ApiError(
-                            constant.MESSAGES.ERROR.TOKEN_EXPIRED,
+                            constants.MESSAGES.ERROR.TOKEN_EXPIRED,
                             httpStatus.UNAUTHORIZED
                         )
                     )
