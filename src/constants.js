@@ -9,6 +9,7 @@ export default {
             MESSAGE_DELETED: 'Message deleted successfully',
             REPLY_MESSAGE: 'Reply Message',
             REPLY_MESSAGE_SENT: 'Reply message sent successfully',
+            ROOT_DATA_FETCHED: 'Root data fetched successfully',
             TEST_SUCCESS: 'Test successfull',
         },
         ERROR: {

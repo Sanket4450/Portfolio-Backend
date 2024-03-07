@@ -116,6 +116,20 @@ class DbRepo {
                 }),
         ])
     }
+
+    static findCount(collectionName, queryObject) {
+        return new Promise((resolve, reject) => {
+            domain[collectionName]
+                .find(queryObject.query)
+                .count()
+                .then((results) => {
+                    resolve(results)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
 }
 
 export default DbRepo
