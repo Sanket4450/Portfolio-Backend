@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import httpStatus from 'http-status'
 import ApiError from '../utils/ApiError.js'
-import constant from '../constants.js'
+import constants from '../constants.js'
 import sessionService from './session.js'
 
 const generateToken = ({ payload, secret, options }) => {

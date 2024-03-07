@@ -152,6 +152,8 @@ const replyMessage = async (id, { subject, description }) => {
             description,
         }
 
+        await emailService.validateEmail(email)
+
         await emailService.sendReplyMessage(email, data)
     } catch (error) {
         throw new ApiError(
