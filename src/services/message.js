@@ -145,7 +145,7 @@ const replyMessage = async (id, { subject, description }) => {
     try {
         const { firstName, lastName, email } = await getFullMessage(id)
 
-        const data = {
+        const templateData = {
             firstName,
             lastName,
             subject,
@@ -154,7 +154,15 @@ const replyMessage = async (id, { subject, description }) => {
 
         await emailService.validateEmail(email)
 
-        await emailService.sendReplyMessage(email, data)
+        await emailService.sendReplyMessage(email, templateData)
+
+        const data = {
+            messageId: new mongoose.Types.ObjectId(id),
+            subject,
+            description,
+        }
+
+        await Dbrepo.create(constants.COLLECTIONS.REPLY, { data })
     } catch (error) {
         throw new ApiError(
             error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
