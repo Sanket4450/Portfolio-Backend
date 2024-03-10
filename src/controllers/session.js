@@ -2,7 +2,21 @@ import httpStatus from 'http-status'
 import constants from '../constants.js'
 import catchAsyncErrors from '../utils/catchAsyncErrors.js'
 import sendResponse from '../utils/responseHandler.js'
-import { sessionService, tokenService } from '../services/index.js'
+import {
+    sessionService,
+    tokenService,
+} from '../services/index.js'
+
+const sendSessionLoginOtp = catchAsyncErrors(async (req, res) => {
+    await sessionService.sendSessionLoginOtp()
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        {},
+        constants.MESSAGES.SUCCESS.OTP_SENT
+    )
+})
 
 const loginSession = catchAsyncErrors(async (req, res) => {
     const { secret } = req.body
@@ -20,5 +34,6 @@ const loginSession = catchAsyncErrors(async (req, res) => {
 })
 
 export default {
+    sendSessionLoginOtp,
     loginSession,
 }

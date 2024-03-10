@@ -18,6 +18,27 @@ const validateEmail = async (email) => {
     }
 }
 
+const sendSessionLoginOtp = async (adminEmail, data) => {
+    try {
+        const templateFile = path.join(
+            process.cwd(),
+            'src/views/sessionLoginOtp.ejs'
+        )
+
+        sendMail({
+            email: adminEmail,
+            subject: constants.MESSAGES.SUCCESS.SESSION_LOGIN_OTP,
+            templateFile,
+            data,
+        })
+    } catch (error) {
+        throw new ApiError(
+            constants.MESSAGES.SOMETHING_WENT_WRONG,
+            httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 const sendReplyMessage = async (email, data) => {
     try {
         const templateFile = path.join(
@@ -41,5 +62,6 @@ const sendReplyMessage = async (email, data) => {
 
 export default {
     validateEmail,
+    sendSessionLoginOtp,
     sendReplyMessage,
 }

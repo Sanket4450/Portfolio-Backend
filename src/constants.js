@@ -2,6 +2,8 @@ export default {
     MESSAGES: {
         SUCCESS: {
             MESSAGE_SENT: 'Message sent successfully',
+            SESSION_LOGIN_OTP: 'Admin Session Login OTP',
+            OTP_SENT: 'Session Login OTP sent successfully',
             SESSION_LOGIN: 'Admin session has logged-in successfully',
             MESSAGES_FETCHED: 'Messages fetched successfully',
             MESSAGE_FETCHED: 'Message fetched successfully',
