@@ -2,12 +2,22 @@ import httpStatus from 'http-status'
 import constants from '../constants.js'
 import catchAsyncErrors from '../utils/catchAsyncErrors.js'
 import sendResponse from '../utils/responseHandler.js'
-import {
-    sessionService,
-    tokenService,
-} from '../services/index.js'
+import { sessionService, tokenService } from '../services/index.js'
 
-const sendSessionLoginOtp = catchAsyncErrors(async (req, res) => {
+const verifySecret = catchAsyncErrors(async (req, res) => {
+    const { secret } = req.body
+
+    sessionService.validateSecret(secret)
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        {},
+        constants.MESSAGES.SUCCESS.SECRET_VERIFIED
+    )
+})
+
+const sendSessionLoginOtp = catchAsyncErrors(async (_, res) => {
     await sessionService.sendSessionLoginOtp()
 
     return sendResponse(
@@ -18,10 +28,9 @@ const sendSessionLoginOtp = catchAsyncErrors(async (req, res) => {
     )
 })
 
-const loginSession = catchAsyncErrors(async (req, res) => {
-    const { secret } = req.body
-
-    sessionService.validateSecret(secret)
+const verifySessionLoginOtp = catchAsyncErrors(async (req, res) => {
+    const { otp } = req.body
+    await sessionService.verifySessionLoginOtp(otp)
 
     const accessToken = await tokenService.generateAccessToken()
 
@@ -29,11 +38,12 @@ const loginSession = catchAsyncErrors(async (req, res) => {
         res,
         httpStatus.OK,
         { accessToken },
-        constants.MESSAGES.SUCCESS.SESSION_LOGIN
+        constants.MESSAGES.SUCCESS.OTP_VERIFIED
     )
 })
 
 export default {
+    verifySecret,
     sendSessionLoginOtp,
-    loginSession,
+    verifySessionLoginOtp,
 }

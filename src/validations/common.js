@@ -30,6 +30,14 @@ export const secretValidation = stringReqValidation
         'string.pattern.base': 'Invalid admin secret ajsdfdasjf',
     })
 
+export const otpValidation = integerNumberReqValidation
+    .min(10 ** 5)
+    .max(10 ** 6 - 1)
+    .messages({
+        'number.min': 'OTP should be 6 digit',
+        'number.max': 'OTP should be 6 digit',
+    })
+
 export const idValidation = stringValidation
     .pattern(new RegExp('^[0-9a-fA-F]{24}$'))
     .messages({

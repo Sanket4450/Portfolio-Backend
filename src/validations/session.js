@@ -1,13 +1,20 @@
 import Joi from 'joi'
 
-import { secretValidation } from './common.js'
+import { otpValidation, secretValidation } from './common.js'
 
-const loginSession = {
+const verifySecret = {
     body: Joi.object().keys({
         secret: secretValidation,
     }),
 }
 
+const verifySessionLoginOtp = {
+    body: Joi.object().keys({
+        otp: otpValidation,
+    }),
+}
+
 export default {
-    loginSession,
+    verifySecret,
+    verifySessionLoginOtp,
 }

@@ -6,14 +6,17 @@ import { sessionController } from '../controllers/index.js'
 const router = express.Router()
 
 router.post(
-    '/otp',
-    sessionController.sendSessionLoginOtp
+    '/verify-secret',
+    validate(sessionValidation.verifySecret),
+    sessionController.verifySecret
 )
 
+router.post('/otp', sessionController.sendSessionLoginOtp)
+
 router.post(
-    '/',
-    validate(sessionValidation.loginSession),
-    sessionController.loginSession
+    '/verify-otp',
+    validate(sessionValidation.verifySessionLoginOtp),
+    sessionController.verifySessionLoginOtp
 )
 
 export default router

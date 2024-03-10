@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import Dbrepo from '../dbRepo.js'
 import ApiError from '../utils/ApiError.js'
 import constants from '../constants.js'
-import {session} from '../context.js'
+import { session } from '../context.js'
 import emailService from './email.js'
 
 const validateSecret = (secret) => {
@@ -21,13 +21,36 @@ const sendSessionLoginOtp = async () => {
 
         const templateData = {
             adminName: process.env.EMAIL_HOST,
-            otp
+            otp,
         }
 
         await emailService.sendSessionLoginOtp(adminEmail, templateData)
 
         session.otp = otp
         session.expiresAt = new Date(Date.now() + 5 * 60 * 1000)
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
+const verifySessionLoginOtp = async (otp) => {
+    try {
+        if (otp !== session.otp) {
+            throw new ApiError(
+                constants.MESSAGES.ERROR.INVALID_OTP,
+                httpStatus.BAD_REQUEST
+            )
+        }
+
+        if (Date.now() > session.expiresAt.getTime()) {
+            throw new ApiError(
+                constants.MESSAGES.ERROR.OTP_EXPIRED,
+                httpStatus.BAD_REQUEST
+            )
+        }
     } catch (error) {
         throw new ApiError(
             error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
@@ -101,6 +124,7 @@ const validateSessionToken = async (token) => {
 export default {
     validateSecret,
     sendSessionLoginOtp,
+    verifySessionLoginOtp,
     createSession,
     validateSessionToken,
 }
