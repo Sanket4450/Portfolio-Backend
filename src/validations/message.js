@@ -38,6 +38,13 @@ const getMessages = {
     }),
 }
 
+const getReplies = {
+    query: Joi.object().keys({
+        sortBy: stringValidation.lowercase().valid('newest', 'oldest'),
+        ...pageAndLimit,
+    }),
+}
+
 const getFullMessage = {
     params: Joi.object().keys({
         messageId: idReqValidation,
@@ -72,6 +79,7 @@ const deleteMessage = {
 export default {
     postMessage,
     getMessages,
+    getReplies,
     getFullMessage,
     replyMessage,
     toggleRead,

@@ -36,6 +36,24 @@ const getMessages = catchAsyncErrors(async (req, res) => {
     )
 })
 
+const getReplies = catchAsyncErrors(async (req, res) => {
+    const replyObjects = await messageService.getReplies(req.query)
+
+    const replies = replyObjects.map((reply) => ({
+        replyId: reply._id,
+        subject: reply.subject,
+        description: reply.description,
+        sentAt: reply.createdAt,
+    }))
+
+    return sendResponse(
+        res,
+        httpStatus.OK,
+        { replies },
+        constants.MESSAGES.SUCCESS.REPLIES_FETCHED
+    )
+})
+
 const getFullMessage = catchAsyncErrors(async (req, res) => {
     const { messageId } = req.params
 
@@ -143,6 +161,7 @@ const deleteMessage = catchAsyncErrors(async (req, res) => {
 export default {
     postMessage,
     getMessages,
+    getReplies,
     getFullMessage,
     replyMessage,
     markAllAsRead,

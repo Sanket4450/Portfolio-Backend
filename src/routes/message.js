@@ -21,6 +21,13 @@ messageAdminRouter.get(
 )
 
 messageAdminRouter.get(
+    '/replies',
+    authorizeAdmin,
+    validate(messageValidation.getReplies),
+    messageController.getReplies
+)
+
+messageAdminRouter.get(
     '/:messageId',
     authorizeAdmin,
     validate(messageValidation.getFullMessage),

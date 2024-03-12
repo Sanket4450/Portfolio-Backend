@@ -171,6 +171,50 @@ const replyMessage = async (id, { subject, description }) => {
     }
 }
 
+const getReplies = async ({ page, limit, sortBy }) => {
+    try {
+        page ||= 1
+        limit ||= 20
+        sortBy ||= 'newest'
+
+        let sortQuery = {}
+
+        const query = {}
+
+        const data = {
+            subject: 1,
+            description: 1,
+            createdAt: 1,
+        }
+
+        switch (sortBy) {
+            case 'newest':
+                sortQuery = { createdAt: -1 }
+                break
+
+            case 'oldest':
+                sortQuery = { createdAt: 1 }
+                break
+
+            default:
+                sortQuery = { createdAt: -1 }
+        }
+
+        return Dbrepo.findPage(
+            constants.COLLECTIONS.REPLY,
+            { query, data },
+            sortQuery,
+            page,
+            limit
+        )
+    } catch (error) {
+        throw new ApiError(
+            error.message || constants.MESSAGES.ERROR.SOMETHING_WENT_WRONG,
+            error.statusCode || httpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+}
+
 const toggleRead = async (messageId, isRead) => {
     try {
         const query = {
@@ -233,6 +277,7 @@ export default {
     sendMessage,
     getMessageById,
     getMessages,
+    getReplies,
     getFullMessage,
     replyMessage,
     toggleRead,
