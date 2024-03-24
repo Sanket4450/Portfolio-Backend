@@ -11,7 +11,7 @@ router.post(
     sessionController.verifySecret
 )
 
-router.post('/otp', sessionController.sendSessionLoginOtp)
+router.get('/otp', sessionController.sendSessionLoginOtp)
 
 router.post(
     '/verify-otp',
