@@ -63,6 +63,7 @@ const getMessages = async ({ page, limit, sortBy }) => {
             firstName: 1,
             lastName: 1,
             email: 1,
+            subject: 1,
             isRead: 1,
             createdAt: 1,
         }

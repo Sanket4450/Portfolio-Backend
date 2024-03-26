@@ -24,6 +24,7 @@ const getMessages = catchAsyncErrors(async (req, res) => {
         firstName: message.firstName,
         lastName: message.lastName,
         email: message.email,
+        subject: message.subject,
         isRead: message.isRead,
         receivedAt: message.createdAt,
     }))
